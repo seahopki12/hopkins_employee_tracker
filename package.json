@@ -1,0 +1,24 @@
+{
+  "name": "hopkins_employee_tracker",
+  "version": "1.0.0",
+  "description": "CLI that can help businesses create and manage their employee database.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seahopki12/hopkins_employee_tracker.git"
+  },
+  "keywords": [
+    "mysql",
+    "inquirer",
+    "console.table"
+  ],
+  "author": "Sean Hopkins",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seahopki12/hopkins_employee_tracker/issues"
+  },
+  "homepage": "https://github.com/seahopki12/hopkins_employee_tracker#readme"
+}
