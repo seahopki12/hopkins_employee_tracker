@@ -1,6 +1,5 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql");
-const consoleTable = require("console.table");
 const Tasks = require("./Develop/Tasks");
 
 const connection = mysql.createConnection({
@@ -17,74 +16,79 @@ const connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId);
-    afterConnection();
+    inquiry();
 });
 
-function afterConnection() {
+let i = false;
 
-    function introQuery() {
-        inquirer
-            .prompt([
-                {
-                    name: "task",
-                    type: "list",
-                    message: "What would you like to do?",
-                    choices: ["View All Employees", "View All Employees By Department", "View All Employees By Manager", "Add Employee", "Remove Employee", "Update Employee Role", "Update Employee Manager"]
-                }
-            ]).then(function (response) {
-                console.log(response.task);
-                switch (response.task) {
-                    case "View All Employees":
-                        const taskOne = new Tasks();
-                        taskOne.allEmployees();
-                        break;
-                    case "View All Employees By Department":
-                        let taskTwo = new Tasks();
-                        taskTwo.employeesByDept();
-                        break;
-                    case "View All Employees By Manager":
-                        let taskThree = new Tasks();
-                        taskThree.employeesByMgr();
-                        break;
-                    case "Add Employee":
-                        let taskFour = new Tasks();
-                        taskFour.addEmployee();
-                        break;
-                    case "Remove Employee":
-                        let taskFive = new Tasks();
-                        taskFive.removeEmployee();
-                        break;
-                    case "Update Employee Role":
-                        let taskSix = new Tasks();
-                        taskSix.updateRole();
-                        break;
-                    case "Update Employee Manager":
-                        let taskSeven = new Tasks();
-                        taskSeven.updateMgr();
-                        break;
-                    default:
-                };
-                finalQuery();
-            });
-    };
-
-    function finalQuery() {
-        inquirer
-            .prompt([
-                {
-                    name: "answer",
-                    type: "confirm",
-                    message: "Would you like to perform another task?"
-                }
-            ]).then(function (response) {
-                if (response.answer) {
-                    introQuery();
-                } else {
+async function inquiry() {
+    while (!i) {
+        await inquirer
+        .prompt([
+            {
+                name: "task",
+                type: "list",
+                message: "What would you like to do?",
+                choices: ["View All Employees", "View All Employees By Department", "View All Employees By Manager", "Add Employee", "Remove Employee", "Update Employee Role", "Update Employee Manager", "Exit"]
+            }
+        ]).then(function (response) {
+            switch (response.task) {
+                case "View All Employees":
+                    const taskOne = new Tasks();
+                    taskOne.allEmployees();
+                    break;
+                case "View All Employees By Department":
+                    let taskTwo = new Tasks();
+                    taskTwo.employeesByDept();
+                    break;
+                case "View All Employees By Manager":
+                    let taskThree = new Tasks();
+                    taskThree.employeesByMgr();
+                    break;
+                case "Add Employee":
+                    let taskFour = new Tasks();
+                    taskFour.addEmployee();
+                    break;
+                case "Remove Employee":
+                    let taskFive = new Tasks();
+                    taskFive.removeEmployee();
+                    break;
+                case "Update Employee Role":
+                    let taskSix = new Tasks();
+                    taskSix.updateRole();
+                    break;
+                case "Update Employee Manager":
+                    let taskSeven = new Tasks();
+                    taskSeven.updateMgr();
+                    break;
+                case "Exit":
                     connection.end();
-                }
-            })
-    }
+                    i = true;
+                    break;
+                default:
+            };
+        });
+    }; 
+};
 
-    introQuery();
 
-}
+
+    // function finalQuery() {
+    //     inquirer
+    //         .prompt([
+    //             {
+    //                 name: "answer",
+    //                 type: "confirm",
+    //                 message: "Would you like to perform another task?"
+    //             }
+    //         ]).then(function (response) {
+    //             if (response.answer) {
+    //                 introQuery();
+    //             } else {
+    //                 connection.end();
+    //             };
+    //         });
+    // };
+
+
+
