@@ -11,9 +11,8 @@
     "url": "git+https://github.com/seahopki12/hopkins_employee_tracker.git"
   },
   "keywords": [
-    "mysql",
-    "inquirer",
-    "console.table"
+    "employee",
+    "tracker"
   ],
   "author": "Sean Hopkins",
   "license": "ISC",
