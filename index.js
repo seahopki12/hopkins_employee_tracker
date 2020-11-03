@@ -37,34 +37,28 @@ async function inquiry() {
                     choices: ["Add A Department", "Add A Role", "Add An Employee", "View Departments", "View Roles", "View Employees", "Update Employee Role", "Exit"]
                 }
             ]).then(async function (response) {
+                const task = new Tasks();
                 switch (response.task) {
                     case "Add A Department":
-                        const taskOne = new Tasks();
-                        await taskOne.addDepartment()
+                        await task.addDepartment()
                         break;
                     case "Add A Role":
-                        let taskTwo = new Tasks();
-                        taskTwo.addRole();
+                        task.addRole();
                         break;
                     case "Add An Employee":
-                        let taskThree = new Tasks();
-                        taskThree.addEmployee();
+                        task.addEmployee();
                         break;
                     case "View Departments":
-                        let taskFour = new Tasks();
-                        taskFour.viewDepts();
+                        task.viewDepts();
                         break;
                     case "View Roles":
-                        let taskFive = new Tasks();
-                        taskFive.viewRoles();
+                        task.viewRoles();
                         break;
                     case "View Employees":
-                        let taskSix = new Tasks();
-                        taskSix.viewEmployees();
+                        task.viewEmployees();
                         break;
                     case "Update Employee Role":
-                        let taskSeven = new Tasks();
-                        taskSeven.updateRole();
+                        task.updateRole();
                         break;
                     case "Exit":
                         connection.end();

@@ -2,6 +2,8 @@ const inquirer = require("inquirer");
 const mysql = require("mysql");
 const consoleTable = require("console.table");
 
+
+
 const connection = mysql.createConnection({
     host: "localhost",
     // Your port; if not 3306
@@ -16,7 +18,20 @@ const connection = mysql.createConnection({
 class Tasks {
 
     // MVP
-    addDepartment() {};
+    async addDepartment() {
+        await inquirer
+            .prompt([
+                {
+                    name: "department",
+                    type: "input",
+                    message: "What is the name of the department?"
+                }
+            ]).then(function(res){
+                connection.query("INSERT INTO department (dept) VALUES (?)", [res.department], function(err, result){
+                    if (err) throw err;
+                });
+            });
+    };
 
     addRole() {};
 
@@ -61,7 +76,8 @@ class Tasks {
         console.log("Here are all the employees: ");
         connection.query(query, function (err, res){ 
             if (err) throw err;
-            console.table(res);
+            let table = consoleTable.getTable(res);
+            console.log(table);
         });
     };
 
