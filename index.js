@@ -34,37 +34,37 @@ async function inquiry() {
                     name: "task",
                     type: "list",
                     message: "What would you like to do?",
-                    choices: ["View All Employees", "View All Employees By Department", "View All Employees By Manager", "Add Employee", "Remove Employee", "Update Employee Role", "Update Employee Manager", "Exit"]
+                    choices: ["Add A Department", "Add A Role", "Add An Employee", "View Departments", "View Roles", "View Employees", "Update Employee Role", "Exit"]
                 }
             ]).then(async function (response) {
                 switch (response.task) {
-                    case "View All Employees":
+                    case "Add A Department":
                         const taskOne = new Tasks();
-                        await taskOne.allEmployees()
+                        await taskOne.addDepartment()
                         break;
-                    case "View All Employees By Department":
+                    case "Add A Role":
                         let taskTwo = new Tasks();
-                        taskTwo.employeesByDept();
+                        taskTwo.addRole();
                         break;
-                    case "View All Employees By Manager":
+                    case "Add An Employee":
                         let taskThree = new Tasks();
-                        taskThree.employeesByMgr();
+                        taskThree.addEmployee();
                         break;
-                    case "Add Employee":
+                    case "View Departments":
                         let taskFour = new Tasks();
-                        taskFour.addEmployee();
+                        taskFour.viewDepts();
                         break;
-                    case "Remove Employee":
+                    case "View Roles":
                         let taskFive = new Tasks();
-                        taskFive.removeEmployee();
+                        taskFive.viewRoles();
+                        break;
+                    case "View Employees":
+                        let taskSix = new Tasks();
+                        taskSix.viewEmployees();
                         break;
                     case "Update Employee Role":
-                        let taskSix = new Tasks();
-                        taskSix.updateRole();
-                        break;
-                    case "Update Employee Manager":
                         let taskSeven = new Tasks();
-                        taskSeven.updateMgr();
+                        taskSeven.updateRole();
                         break;
                     case "Exit":
                         connection.end();

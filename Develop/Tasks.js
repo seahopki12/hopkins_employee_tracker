@@ -15,37 +15,72 @@ const connection = mysql.createConnection({
 
 class Tasks {
 
-    // constructor(task) {
-    //     this.task = task;
-    // }
+    // MVP
+    addDepartment() {};
 
-    allEmployees() {
-        // let query = "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name, role.salary";
-        // query += "FROM employee INNER JOIN role ON employee.role_id = role.id INNER JOIN department ON role.department_id = department.id";
+    addRole() {};
+
+    addEmployee() {
+        let managers = [];
+        let roles = [];
+        inquirer
+            .prompt([
+                {
+                    name: "first",
+                    type: "input",
+                    message: "What is the employee's first name?"
+                },
+                {
+                    name: "last",
+                    type: "input",
+                    message: "What is the employee's last name?"
+                },
+                {
+                    name: "role",
+                    type: "list",
+                    message: "What is the employee's role?",
+                    choices: roles
+                },
+                {
+                    name: "manager",
+                    type: "list",
+                    message: "Who is the employee's manager?",
+                    choices: managers
+                }
+            ]).then(function(res){
+                console.log(res)
+            });
+    };
+
+    viewDepts() {};
+
+    viewRoles() {};
+
+    viewEmployees() {
+        let query = "SELECT employee.id, employee.first_name, employee.last_name FROM employee";
         console.log("Here are all the employees: ");
-        connection.query("SELECT * FROM employee", function (err, res){ 
+        connection.query(query, function (err, res){ 
             if (err) throw err;
             console.table(res);
         });
     };
-    employeesByDept() {
-        console.log("Here are the Employees by Department.");
-    };
-    employeesByMgr() {
-        console.log("Here are the Employees by Manager.")
-    };
-    addEmployee() {
-        console.log("You've added an employee.");
-    };
-    removeEmployee() {
-        console.log("You've removed an employee.");
-    };
+
     updateRole() {
         console.log("You have updated someone's role.");
     };
-    updateMgr() {
-        console.log("You have updated someone's manager");
-    };
+
+    // Bonus
+    updateMgr() {};
+
+    employeesByMgr() {};
+
+    removeDepartment() {};
+
+    removeRole() {};
+
+    removeEmployee() {};
+
+    deptBudget() {};
 }
 
 module.exports = Tasks;
