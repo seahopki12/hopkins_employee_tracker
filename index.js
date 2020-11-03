@@ -14,81 +14,67 @@ const connection = mysql.createConnection({
 });
 
 connection.connect(function (err) {
-    if (err) throw err;
+    if (err) {
+        console.error("error connecting: " + err.stack);
+        return;
+    }
+
     console.log("connected as id " + connection.threadId);
     inquiry();
 });
 
-let i = false;
+
 
 async function inquiry() {
+    let i = false;
     while (!i) {
         await inquirer
-        .prompt([
-            {
-                name: "task",
-                type: "list",
-                message: "What would you like to do?",
-                choices: ["View All Employees", "View All Employees By Department", "View All Employees By Manager", "Add Employee", "Remove Employee", "Update Employee Role", "Update Employee Manager", "Exit"]
-            }
-        ]).then(function (response) {
-            switch (response.task) {
-                case "View All Employees":
-                    const taskOne = new Tasks();
-                    taskOne.allEmployees();
-                    break;
-                case "View All Employees By Department":
-                    let taskTwo = new Tasks();
-                    taskTwo.employeesByDept();
-                    break;
-                case "View All Employees By Manager":
-                    let taskThree = new Tasks();
-                    taskThree.employeesByMgr();
-                    break;
-                case "Add Employee":
-                    let taskFour = new Tasks();
-                    taskFour.addEmployee();
-                    break;
-                case "Remove Employee":
-                    let taskFive = new Tasks();
-                    taskFive.removeEmployee();
-                    break;
-                case "Update Employee Role":
-                    let taskSix = new Tasks();
-                    taskSix.updateRole();
-                    break;
-                case "Update Employee Manager":
-                    let taskSeven = new Tasks();
-                    taskSeven.updateMgr();
-                    break;
-                case "Exit":
-                    connection.end();
-                    i = true;
-                    break;
-                default:
-            };
-        });
-    }; 
+            .prompt([
+                {
+                    name: "task",
+                    type: "list",
+                    message: "What would you like to do?",
+                    choices: ["View All Employees", "View All Employees By Department", "View All Employees By Manager", "Add Employee", "Remove Employee", "Update Employee Role", "Update Employee Manager", "Exit"]
+                }
+            ]).then(async function (response) {
+                switch (response.task) {
+                    case "View All Employees":
+                        const taskOne = new Tasks();
+                        await taskOne.allEmployees()
+                        break;
+                    case "View All Employees By Department":
+                        let taskTwo = new Tasks();
+                        taskTwo.employeesByDept();
+                        break;
+                    case "View All Employees By Manager":
+                        let taskThree = new Tasks();
+                        taskThree.employeesByMgr();
+                        break;
+                    case "Add Employee":
+                        let taskFour = new Tasks();
+                        taskFour.addEmployee();
+                        break;
+                    case "Remove Employee":
+                        let taskFive = new Tasks();
+                        taskFive.removeEmployee();
+                        break;
+                    case "Update Employee Role":
+                        let taskSix = new Tasks();
+                        taskSix.updateRole();
+                        break;
+                    case "Update Employee Manager":
+                        let taskSeven = new Tasks();
+                        taskSeven.updateMgr();
+                        break;
+                    case "Exit":
+                        connection.end();
+                        i = true;
+                        break;
+                    default:
+                };
+            });
+    };
 };
-
-
-
-    // function finalQuery() {
-    //     inquirer
-    //         .prompt([
-    //             {
-    //                 name: "answer",
-    //                 type: "confirm",
-    //                 message: "Would you like to perform another task?"
-    //             }
-    //         ]).then(function (response) {
-    //             if (response.answer) {
-    //                 introQuery();
-    //             } else {
-    //                 connection.end();
-    //             };
-    //         });
-    // };
 
 
 

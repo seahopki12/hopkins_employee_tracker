@@ -20,20 +20,12 @@ class Tasks {
     // }
 
     allEmployees() {
-        let query = "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name, role.salary";
-        query += "FROM employee INNER JOIN role ON employee.role_id = role.id INNER JOIN department ON role.department_id = department.id";
+        // let query = "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name, role.salary";
+        // query += "FROM employee INNER JOIN role ON employee.role_id = role.id INNER JOIN department ON role.department_id = department.id";
         console.log("Here are all the employees: ");
         connection.query("SELECT * FROM employee", function (err, res){ 
             if (err) throw err;
-            console.table("Multiple Items",[
-                {
-                    name: 'foo',
-                    age: 10
-                  }, {
-                    name: 'bar',
-                    age: 20
-                  }
-            ]);
+            console.table(res);
         });
     };
     employeesByDept() {
