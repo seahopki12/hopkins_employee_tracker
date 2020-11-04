@@ -15,29 +15,44 @@ const connection = mysql.createConnection({
     database: "employee_trackerDB"
 });
 
+let managers = [];
+let roles = [];
+
 class Tasks {
 
     // MVP
-    async addDepartment() {
-        await inquirer
+    addDepartment() {
+        inquirer
             .prompt([
                 {
                     name: "department",
                     type: "input",
                     message: "What is the name of the department?"
                 }
-            ]).then(function(res){
-                connection.query("INSERT INTO department (dept) VALUES (?)", [res.department], function(err, result){
+            ]).then(function (res) {
+                connection.query("INSERT INTO department (dept) VALUES (?)", [res.department], function (err, result) {
                     if (err) throw err;
                 });
             });
     };
 
-    addRole() {};
+    addRole() {
+        inquirer
+            .prompt([
+                {
+                    name: "role",
+                    type: "input",
+                    message: "What is the name of the role?"
+                }
+            ]).then(function (res) {
+                roles.push(res.role);
+                connection.query("INSERT INTO role (title) VALUES (?)", [res.role], function (err, result) {
+                    if (err) throw err;
+                });
+            });
+    };
 
     addEmployee() {
-        let managers = [];
-        let roles = [];
         inquirer
             .prompt([
                 {
@@ -49,32 +64,23 @@ class Tasks {
                     name: "last",
                     type: "input",
                     message: "What is the employee's last name?"
-                },
-                {
-                    name: "role",
-                    type: "list",
-                    message: "What is the employee's role?",
-                    choices: roles
-                },
-                {
-                    name: "manager",
-                    type: "list",
-                    message: "Who is the employee's manager?",
-                    choices: managers
                 }
-            ]).then(function(res){
-                console.log(res)
+            ]).then(function (res) {
+                const values = [res.first, res.last];
+                connection.query("INSERT INTO employee (first_name, last_name) VALUES (?)", [values], function (err, result) {
+                    if (err) throw err;
+                });
             });
     };
 
-    viewDepts() {};
+    viewDepts() { };
 
-    viewRoles() {};
+    viewRoles() { };
 
     viewEmployees() {
         let query = "SELECT employee.id, employee.first_name, employee.last_name FROM employee";
         console.log("Here are all the employees: ");
-        connection.query(query, function (err, res){ 
+        connection.query(query, function (err, res) {
             if (err) throw err;
             let table = consoleTable.getTable(res);
             console.log(table);
@@ -86,17 +92,17 @@ class Tasks {
     };
 
     // Bonus
-    updateMgr() {};
+    updateMgr() { };
 
-    employeesByMgr() {};
+    employeesByMgr() { };
 
-    removeDepartment() {};
+    removeDepartment() { };
 
-    removeRole() {};
+    removeRole() { };
 
-    removeEmployee() {};
+    removeEmployee() { };
 
-    deptBudget() {};
+    deptBudget() { };
 }
 
 module.exports = Tasks;
