@@ -107,6 +107,7 @@ class Tasks {
 
     viewEmployees() {
         let query = "SELECT employee.id, employee.first_name, employee.last_name FROM employee";
+        // query += "FROM employee INNER JOIN department ON ("
         console.log("Here are all the employees: ");
         connection.query(query, function (err, res) {
             if (err) throw err;
