@@ -15,9 +15,6 @@ const connection = mysql.createConnection({
     database: "employee_trackerDB"
 });
 
-let managers = [];
-let roles = [];
-
 class Tasks {
 
     // MVP
@@ -45,14 +42,32 @@ class Tasks {
                     message: "What is the name of the role?"
                 }
             ]).then(function (res) {
-                roles.push(res.role);
                 connection.query("INSERT INTO role (title) VALUES (?)", [res.role], function (err, result) {
                     if (err) throw err;
                 });
             });
     };
 
-    addEmployee() {
+    promisifiedQuery(sqlQuery, parameters) {
+        return new Promise(function (resolve, reject) {
+            connection.query(sqlQuery, parameters, function (err, rows) {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(rows);
+            });
+        });
+    }
+
+    async addEmployee() {
+        const deptsData = await this.promisifiedQuery("SELECT dept FROM department", null)
+        const depts = deptsData.map(function (a) {
+            return a.dept;
+        });
+        const rolesData = await this.promisifiedQuery("SELECT title FROM role", null)
+        const roles = rolesData.map(function (a) {
+            return a.title;
+        });
         inquirer
             .prompt([
                 {
@@ -64,12 +79,25 @@ class Tasks {
                     name: "last",
                     type: "input",
                     message: "What is the employee's last name?"
+                },
+                {
+                    name: "department",
+                    type: "list",
+                    message: "To which department does this employee belong?",
+                    choices: depts
+                },
+                {
+                    name: "role",
+                    type: "list",
+                    message: "What is this employee's role in the company?",
+                    choices: roles
                 }
             ]).then(function (res) {
                 const values = [res.first, res.last];
                 connection.query("INSERT INTO employee (first_name, last_name) VALUES (?)", [values], function (err, result) {
                     if (err) throw err;
                 });
+
             });
     };
 
